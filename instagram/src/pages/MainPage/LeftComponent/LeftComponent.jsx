@@ -1,10 +1,22 @@
 import styles from './LeftComponent.module.css'
+import { useContext } from 'react';
 
-const LeftComponent = () => {
+
+const LeftComponent = ({setLeftState}) => {
+
+
+
   return (
     <div className={styles.LeftComponent}>
-        <button className={styles.loginBtn}>로그인</button>
-        <button className={styles.signupBtn}>새 계정 만들기</button>
+      <button className={styles.loginBtn} onClick={() => setLeftState("login")}>
+        로그인
+      </button>
+      <button
+        className={styles.signupBtn}
+        onClick={() => setLeftState("signup")}
+      >
+        새 계정 만들기
+      </button>
     </div>
   );
 };

@@ -1,0 +1,49 @@
+.LoginPage {
+    width: 610px;
+    height: 90vh;
+    background-color: rgb(20, 33, 39);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+
+.goReturn {
+    padding-left: 25px;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.inputBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.input {
+    width: 90%;
+    height: 50px;
+    background-color: rgb(20, 33, 39);
+    padding-left: 10px;
+    border: 1px solid rgb(142, 144, 145);
+    border-radius: 10px;
+    color: white;
+}
+
+
+.button {
+    width: 90%;
+    height: 50px;
+    background-color: rgb(0, 100, 224);
+    border-radius: 50px;
+    text-align: center;
+    line-height: 50px;
+    color: white;
+}
+
+.p {
+    color: white;
+}
+
