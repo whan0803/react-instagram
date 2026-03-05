@@ -1,9 +1,27 @@
-import styles from './Signup.module.css'
-
+import styles from "./Signup.module.css";
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+
+import axios from "axios"; 
 
 const Signup = () => {
+  const [signupForm, setSignupForm] = useState({
+    user_mail: "",
+    user_password: "",
+    user_birth: "",
+    user_name: "",
+    user_id: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setSignupForm({
+      ...signupForm,
+      [name]: value,
+    });
+  };
+
   const currentYear = new Date().getFullYear();
 
   const years = Array.from({ length: 30 }, (_, i) => currentYear - i);
@@ -11,16 +29,46 @@ const Signup = () => {
 
   const [year, setYear] = useState(currentYear);
   const [month, setMonth] = useState(1);
+  const [day, setDay] = useState(1);
 
-  // 해당 월의 마지막 날짜 계산 (윤년 자동 처리)
+  // 해당 월 마지막 날짜
   const lastDay = new Date(year, month, 0).getDate();
   const days = Array.from({ length: lastDay }, (_, i) => i + 1);
 
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
 
   const goReturn = () => {
-    navigate('/');
-  }
+    navigate("/");
+  };
+
+  const handleSignup = async () => {
+
+    let months = month;
+    let days = day;
+
+    if(months < 10) {
+      months = "0" + month;
+    }
+
+    if(days < 10) {
+      days = "0" + day;
+    }
+
+    const birth = `${year}-${months}-${days}`;
+
+    const data = {
+      ...signupForm,
+      user_birth: birth,
+    };
+
+    try {
+      const res = await axios.post("http://localhost:3000/signup", data);
+      console.log(res.data);
+      alert("회원가입이 정상적으로 완료되었습니다");
+    }catch(err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className={styles.Signup}>
@@ -31,7 +79,9 @@ const Signup = () => {
         <input
           type="email"
           id="email"
+          name="user_mail"
           placeholder="이메일 주소를 입력해주세요"
+          onChange={handleChange}
         />
       </div>
 
@@ -40,7 +90,9 @@ const Signup = () => {
         <input
           type="password"
           id="password"
+          name="user_password"
           placeholder="비밀번호를 입력해주세요"
+          onChange={handleChange}
         />
       </div>
 
@@ -51,7 +103,6 @@ const Signup = () => {
         <div className={styles.selectWrapper}>
           {/* 년 */}
           <select
-            id="year"
             value={year}
             onChange={(e) => setYear(Number(e.target.value))}
           >
@@ -64,7 +115,6 @@ const Signup = () => {
 
           {/* 월 */}
           <select
-            id="month"
             value={month}
             onChange={(e) => setMonth(Number(e.target.value))}
           >
@@ -76,7 +126,7 @@ const Signup = () => {
           </select>
 
           {/* 일 */}
-          <select id="day">
+          <select value={day} onChange={(e) => setDay(Number(e.target.value))}>
             {days.map((d) => (
               <option key={d} value={d}>
                 {d}일
@@ -88,17 +138,34 @@ const Signup = () => {
 
       <div className={styles.inputBoxWrapper}>
         <label htmlFor="name">이름</label>
-        <input type="text" id="name" placeholder="이름을 입력해주세요" />
+        <input
+          type="text"
+          id="name"
+          name="user_name"
+          placeholder="이름을 입력해주세요"
+          onChange={handleChange}
+        />
       </div>
 
       <div className={styles.inputBoxWrapper}>
         <label htmlFor="userId">아이디</label>
-        <input type="text" id="userId" placeholder="아이디를 입력해주세요" />
+        <input
+          type="text"
+          id="userId"
+          name="user_id"
+          placeholder="아이디를 입력해주세요"
+          onChange={handleChange}
+        />
       </div>
 
       <div className={styles.buttonWrapper}>
-        <button className={styles.button}>회원가입 하기</button>
-        <button onClick={goReturn} className={styles.button}>돌아가기</button>
+        <button onClick={handleSignup} className={styles.button}>
+          회원가입 하기
+        </button>
+
+        <button onClick={goReturn} className={styles.button}>
+          돌아가기
+        </button>
       </div>
     </div>
   );
