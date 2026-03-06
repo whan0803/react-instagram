@@ -2,8 +2,13 @@ import { useState } from "react"
 import style from './LoginPage.module.css'
 
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+
 
 const LoginPage = ({ setLeftState }) => {
+
+    const navigate = useNavigate();
 
   const [login, setLogin] = useState({
     user_mail: "",
@@ -14,16 +19,27 @@ const LoginPage = ({ setLeftState }) => {
     const {name, value} = e.target;
 
     setLogin({
-      ...setLogin,
+      ...login,
       [name]: value
     })
   }
 
-  const navigate = useNavigate();
+  const handleLogin = async () => {
+    const data = login;
+    console.log(data)
 
-  const goHomePage = () => {
-    navigate('/homepage')
+    try {
+      const res = await axios.post("http://localhost:3000/login", data);
+      alert("로그인이 완료되었습니다");
+      
+      navigate("/homepage");
+    }catch(err) {
+      console.log(err);
+    }
   }
+
+
+
 
   return (
     <div className={style.LoginPage}>
@@ -45,10 +61,10 @@ const LoginPage = ({ setLeftState }) => {
           name="user_password"
           onChange={handleChange}
           className={style.input}
-          type="text"
+          type="password"
           placeholder="비밀번호"
         />
-        <button onClick={goHomePage} className={style.button}>
+        <button onClick={handleLogin} className={style.button}>
           로그인
         </button>
         <p className={style.p}>비밀번호를 잊으셨나요?</p>

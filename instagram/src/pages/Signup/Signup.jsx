@@ -65,6 +65,7 @@ const Signup = () => {
       const res = await axios.post("http://localhost:3000/signup", data);
       console.log(res.data);
       alert("회원가입이 정상적으로 완료되었습니다");
+      navigate('/');
     }catch(err) {
       console.log(err);
     }

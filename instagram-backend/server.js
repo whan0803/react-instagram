@@ -39,7 +39,7 @@ app.post('/signup', async (req, res) => {
 
 })
 
-app.post('/login', async(res, req) => {
+app.post('/login', async(req, res) => {
     try {
     const { user_mail, user_password } = req.body;
 
@@ -49,7 +49,7 @@ app.post('/login', async(res, req) => {
 
     if (result.rows.length === 0) {
         return res
-        .setEncoding(400)
+        .status(400)
         .json({ message: "존재 하지 않는 이메일 입니다" });
     }
 
@@ -58,7 +58,7 @@ app.post('/login', async(res, req) => {
     const match = await bcrypt.compare(user_password, user.user_password);
     
     if(!match) {
-        return res.setEncoding(400).json({message: "비밀번호가 틀립니다"});
+        return res.status(400).json({message: "비밀번호가 틀립니다"});
     }
 
     const token = jwt.sign({id: user.id,  user_mail: user.user_mail}, JWT_SECRET, {expiresIn: '1h'});
@@ -66,7 +66,7 @@ app.post('/login', async(res, req) => {
     res.json({message: "로그인 성공"}, token);
     }catch(err) {
         console.error(err);
-        res.setEncoding(500).json({message: "서버오류"});
+        res.status(500).json({message: "서버오류"});
     }
 
 })
