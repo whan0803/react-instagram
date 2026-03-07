@@ -1,0 +1,12 @@
+.HomeMain {
+    width: 630px;
+    height: calc(100vh - 108px);
+    background-color: rgb(109, 120, 120);
+}
+
+.ArticleWrapper {
+    width: 468px;
+    height: 100%;
+    background-color: blue;
+    margin: 0 auto;
+}
