@@ -1,5 +1,4 @@
 import styles from './LeftComponent.module.css'
-import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
